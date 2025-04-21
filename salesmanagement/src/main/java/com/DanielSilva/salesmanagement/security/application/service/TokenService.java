@@ -121,7 +121,7 @@ public class TokenService {
 
     public static Map<String, Object> decodeJwtPayload(String token) {
         try {
-            String[] parts = token.split("\\.");
+            String[] parts = token.split("\\."); //
             if (parts.length < 2) {
                 throw new IllegalArgumentException("Token inválido");
             }
