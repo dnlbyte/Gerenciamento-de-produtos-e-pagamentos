@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,13 +30,13 @@ public class UserService implements UserDetailsService {
     }
 
     public UserModel  findByUsernameAndActiveIsTrue(String email){
-        return userRepository.findByUsernameAndActiveIsTrue(email).orElseThrow( () -> new UserNotFoundException(String.format("User '%s' was not found", email)));
+        return userRepository.findByUsernameAndIsActiveIsTrue(email).orElseThrow( () -> new UserNotFoundException(String.format("User '%s' was not found", email)));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info(username);
-        UserModel user = userRepository.findByUsernameAndActiveIsTrue(username)
+        UserModel user = userRepository.findByUsernameAndIsActiveIsTrue(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
