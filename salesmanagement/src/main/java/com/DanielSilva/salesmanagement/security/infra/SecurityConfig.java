@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -26,7 +27,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/auth/login", "/auth/register").permitAll()
+                        .requestMatchers("/auth/login", "/users/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole(RoleEnum.ADMINISTRATOR.name())
                         .requestMatchers("/auth/refresh").hasRole(RoleEnum.ASSOCIATE.name())
                         .requestMatchers("/auth/**").authenticated()
@@ -36,7 +37,7 @@ public class SecurityConfig {
                 .build();
     }
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean

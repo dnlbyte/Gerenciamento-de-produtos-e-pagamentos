@@ -17,6 +17,7 @@ import java.util.UUID;
 @Table(name = "tb_user", schema = "security")
 public class UserModel {
     @Id
+    @GeneratedValue
     private UUID id;
 
     @Column(unique = true, nullable = false)

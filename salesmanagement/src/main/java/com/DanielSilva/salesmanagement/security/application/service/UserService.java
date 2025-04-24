@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,10 +47,17 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(AuthRequest form) {
+        Date date = new Date();
+
         UserModel user = new UserModel();
         user.setUsername(form.getEmail());
         user.setPassword(passwordEncoder.encode(form.getPassword()));
+        user.setCreatedAt(date);
+        user.setUpdatedAt(date);
+        user.setActive(true);
+        user.setVersion(1);
         user.setRole(form.getRole());
+
         try {
             userRepository.save(user);
         } catch(DataIntegrityViolationException err){
